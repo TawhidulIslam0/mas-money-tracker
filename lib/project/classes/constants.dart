@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:money_assistant_2608/project/database_management/shared_preferences_services.dart';
 
@@ -86,8 +87,16 @@ IconData iconData(CategoryItem item) => IconData(item.iconCodePoint,
     fontPackage: item.iconFontPackage, fontFamily: item.iconFontFamily);
 
 //should description be '' or null?
-CategoryItem categoryItem(IconData icon, String name) =>
-    CategoryItem(icon.codePoint, icon.fontPackage, icon.fontFamily, name, '');
+CategoryItem categoryItem(Object icon, String name) {
+  final iconData = switch (icon) {
+    IconData value => value,
+    FaIconData value => value.data,
+    _ => throw ArgumentError.value(
+        icon, 'icon', 'Expected IconData or FaIconData'),
+  };
+  return CategoryItem(
+      iconData.codePoint, iconData.fontPackage, iconData.fontFamily, name, '');
+}
 
 Widget? connectionUI(AsyncSnapshot<List<InputModel>> snapshot) {
   if (snapshot.connectionState == ConnectionState.none) {

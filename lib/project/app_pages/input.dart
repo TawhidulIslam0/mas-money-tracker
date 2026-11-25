@@ -461,124 +461,114 @@ class _DescriptionCardState extends State<DescriptionCard> {
   //   super.dispose();
   // }
 
-  KeyboardActionsConfig _buildConfig(BuildContext context) {
-    return KeyboardActionsConfig(
-        nextFocus: false,
-        keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-        keyboardBarColor: Colors.grey[200],
-        actions: [
-          KeyboardActionsItem(
-              focusNode: descriptionFocusNode!,
-              toolbarButtons: [
-                (node) {
-                  return SizedBox(
-                    width: 1.sw,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 5.w, right: 16.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                FocusScope.of(context)
-                                    .requestFocus(amountFocusNode);
-                                _pc.open();
-                              },
-                              child: SizedBox(
-                                height: 35.h,
-                                width: 60.w,
-                                child: Icon(Icons.keyboard_arrow_up,
-                                    size: 25.sp, color: Colors.blueGrey),
-                              ),
-                            ),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     node.unfocus();
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => model.type == 'Income'
-                            //                 ? IncomeCategory()
-                            //                 : ExpenseCategory()));
-                            //   },
-                            //   child: Text(
-                            //     getTranslated(context, 'Choose Category')!,
-                            //     style: TextStyle(
-                            //         fontSize: 16.sp,
-                            //         fontWeight: FontWeight.bold,
-                            //         color: Colors.blueGrey),
-                            //   ),
-                            // ),
-                            GestureDetector(
-                                onTap: () => node.unfocus(),
-                                child: Text(
-                                  getTranslated(context, "Done")!,
-                                  style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue),
-                                ))
-                          ],
-                        )),
-                  );
-                },
-              ])
-        ]);
-  }
+  List<KeyboardBarButtonBuilder> _buildToolbarButtons(BuildContext context) => [
+        (node) {
+          return SizedBox(
+            width: 1.sw,
+            child: Padding(
+                padding: EdgeInsets.only(left: 5.w, right: 16.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(amountFocusNode);
+                        _pc.open();
+                      },
+                      child: SizedBox(
+                        height: 35.h,
+                        width: 60.w,
+                        child: Icon(Icons.keyboard_arrow_up,
+                            size: 25.sp, color: Colors.blueGrey),
+                      ),
+                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     node.unfocus();
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => model.type == 'Income'
+                    //                 ? IncomeCategory()
+                    //                 : ExpenseCategory()));
+                    //   },
+                    //   child: Text(
+                    //     getTranslated(context, 'Choose Category')!,
+                    //     style: TextStyle(
+                    //         fontSize: 16.sp,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.blueGrey),
+                    //   ),
+                    // ),
+                    GestureDetector(
+                        onTap: () => node.unfocus(),
+                        child: Text(
+                          getTranslated(context, "Done")!,
+                          style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue),
+                        ))
+                  ],
+                )),
+          );
+        },
+      ];
 
   @override
   Widget build(BuildContext context) {
     return KeyboardActions(
-      overscroll: 0,
-      disableScroll: true,
-      tapOutsideBehavior: TapOutsideBehavior.translucentDismiss,
-      autoScroll: false,
-      config: _buildConfig(context),
+      navigation: KeyboardNavigation.none,
+      ensureVisible: false,
       child: Column(children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.5.h),
-          child: TextFormField(
-            controller: descriptionController,
-            maxLines: null,
-            minLines: 1,
-            keyboardType: TextInputType.multiline,
-            keyboardAppearance: Brightness.light,
-            // maxLength: ,
-            onTap: () {
-              if (_pc.isPanelOpen) {
-                _pc.close();
-              }
-            },
-            cursorColor: blue1,
-            textCapitalization: TextCapitalization.sentences,
-            style: TextStyle(fontSize: 20.sp),
+          child: KeyboardField(
             focusNode: descriptionFocusNode,
-            textInputAction: TextInputAction.newline,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: getTranslated(context, 'Description'),
-                hintStyle: GoogleFonts.cousine(
-                  fontSize: 22.sp,
-                  fontStyle: FontStyle.italic,
-                ),
-                suffixIcon: descriptionController.text.length > 0
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          size: 20.sp,
-                        ),
-                        onPressed: () {
-                          descriptionController.clear();
-                        })
-                    : SizedBox(),
-                icon: Padding(
-                  padding: EdgeInsets.only(right: 15.w),
-                  child: Icon(
-                    Icons.description_outlined,
-                    size: 40.sp,
-                    color: Colors.blueGrey,
+            toolbarButtons: _buildToolbarButtons(context),
+            child: TextFormField(
+              controller: descriptionController,
+              maxLines: null,
+              minLines: 1,
+              keyboardType: TextInputType.multiline,
+              keyboardAppearance: Brightness.light,
+              // maxLength: ,
+              onTap: () {
+                if (_pc.isPanelOpen) {
+                  _pc.close();
+                }
+              },
+              cursorColor: blue1,
+              textCapitalization: TextCapitalization.sentences,
+              style: TextStyle(fontSize: 20.sp),
+              focusNode: descriptionFocusNode,
+              textInputAction: TextInputAction.newline,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: getTranslated(context, 'Description'),
+                  hintStyle: GoogleFonts.cousine(
+                    fontSize: 22.sp,
+                    fontStyle: FontStyle.italic,
                   ),
-                )),
+                  suffixIcon: descriptionController.text.length > 0
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.clear,
+                            size: 20.sp,
+                          ),
+                          onPressed: () {
+                            descriptionController.clear();
+                          })
+                      : SizedBox(),
+                  icon: Padding(
+                    padding: EdgeInsets.only(right: 15.w),
+                    child: Icon(
+                      Icons.description_outlined,
+                      size: 40.sp,
+                      color: Colors.blueGrey,
+                    ),
+                  )),
+            ),
           ),
         ),
         Divider(
@@ -647,9 +637,8 @@ class _DateCardState extends State<DateCard> {
                   ),
                 ),
                 Text(
-                  DateFormat(sharedPrefs.dateFormat).format(
-                      DateFormat('dd/MM/yyyy').parse(
-                          model.date!)),
+                  DateFormat(sharedPrefs.dateFormat)
+                      .format(DateFormat('dd/MM/yyyy').parse(model.date!)),
                   style: GoogleFonts.aBeeZee(
                     fontSize: 21.5.sp,
                   ),
@@ -673,10 +662,10 @@ class _DateCardState extends State<DateCard> {
                         horizontal: 50.w, vertical: 30.0.h),
                     elevation: 12,
                     context: context,
-                    value: selectedTime,
+                    value: Time.fromTimeOfDay(selectedTime, null),
                     is24HrFormat: true,
                     onChange: (value) => setState(() {
-                          selectedTime = value;
+                          selectedTime = value.toTimeOfDay();
                           model.time = value.format(context);
                         })),
               );
@@ -709,7 +698,10 @@ void saveInputFunc(BuildContext context, bool saveFunction) {
   } else {
     DB.update(model);
     Navigator.pop(context);
-    customToast(context, getTranslated(context, 'Transaction has been updated') ?? 'Transaction has been updated');
+    customToast(
+        context,
+        getTranslated(context, 'Transaction has been updated') ??
+            'Transaction has been updated');
   }
 }
 

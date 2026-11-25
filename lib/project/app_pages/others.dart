@@ -40,7 +40,7 @@ class Other extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     child: CircleAvatar(
-                        child: Icon(
+                        child: FaIcon(
                           FontAwesomeIcons.smileBeam,
                           color: Colors.black,
                           size: 71.sp,
@@ -136,9 +136,8 @@ class _SettingsState extends State<Settings> {
       // getTranslated(context, 'Feedback')!,
       getTranslated(context, 'Language') ?? 'Language',
       getTranslated(context, 'Currency') ?? 'Currency',
-      (getTranslated(context, 'Date format') ??
-          'Date format') +
-              ' (${DateFormat(sharedPrefs.dateFormat).format(now)})',
+      (getTranslated(context, 'Date format') ?? 'Date format') +
+          ' (${DateFormat(sharedPrefs.dateFormat).format(now)})',
       getTranslated(context, 'Reset All Categories') ?? 'Reset All Categories',
       getTranslated(context, 'Delete All Data') ?? 'Delete All Data',
       // getTranslated(context, 'Enable Passcode') ?? 'Enable Passcode',

@@ -55,12 +55,6 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
 
       await rateMyApp.init();
-      rateMyApp.conditions.forEach((condition) {
-        if (condition is DebuggableCondition) {
-          print(condition.valuesAsString);
-          // condition.reset();
-        }
-      });
       if (mounted && rateMyApp.shouldOpenDialog) {
         rateMyApp.showRateDialog(
           context,

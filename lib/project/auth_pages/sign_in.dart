@@ -11,6 +11,11 @@ class SignIn extends StatelessWidget {
     return Future.delayed(Duration(seconds: 1)).then((_) => null);
   }
 
+  Future<String?>? _registerUsers(SignupData data) {
+    print('register user');
+    return Future.delayed(Duration(seconds: 1)).then((_) => null);
+  }
+
   Future<String?>? _onRecoverPassword(String name) {
     print('onRecoverPassword');
     return Future.delayed(Duration(seconds: 1)).then((_) => null);
@@ -25,7 +30,7 @@ class SignIn extends StatelessWidget {
     return FlutterLogin(
       title: 'MMAS',
       logo: 'Hi!',
-      onSignup: _authenticateUsers,
+      onSignup: _registerUsers,
       onLogin: _authenticateUsers,
       onRecoverPassword: _onRecoverPassword,
       onSubmitAnimationCompleted: () {
